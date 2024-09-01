@@ -21,7 +21,7 @@ RUN apt-get update && \
 
 # Install uv, compile and install requirements, and install dea-intertidal
 WORKDIR /app
-COPY requirements.in .
+# COPY requirements.in .
 COPY . .
 RUN pip install uv && \
     uv pip compile requirements.in -o requirements.txt && \
