@@ -10,14 +10,14 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 # Apt installation
 RUN apt-get update && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends \
       build-essential \
-      fish \
+      # fish \
       git \
-      vim \
-      htop \
-      wget \
-      unzip \
+      # vim \
+      # htop \
+      # wget \
+      # unzip \
       python3-pip \
       libpq-dev \
     && apt-get autoclean && \
