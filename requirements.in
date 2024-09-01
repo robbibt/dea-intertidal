@@ -2,7 +2,7 @@
 aiohttp
 botocore
 click==8.1.7
-datacube==1.8.18
+datacube[s3,performance]==1.8.19
 dea-tools==0.3.2
 eodatasets3==0.30.5
 geopandas==0.14.3
