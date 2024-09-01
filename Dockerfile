@@ -25,15 +25,18 @@ RUN apt-get update && \
     rm -rf /var/lib/{apt,dpkg,cache,log}
 
 # Install pip-tools
-RUN pip install pip-tools
+RUN pip install uv
 
 # Pip installation
 RUN mkdir -p /conf
-# COPY requirements.in /conf/
+COPY requirements.in /conf/
+RUN uv pip compile /conf/requirements.in -o /conf/requirements.txt
+RUN uv pip install -r /conf/requirements.txt
+
 # RUN pip-compile --extra-index-url=https://packages.dea.ga.gov.au/ --output-file=/conf/requirements.txt /conf/requirements.in
-COPY requirements.txt /conf/
-RUN pip install -r /conf/requirements.txt \
-    && pip install --no-cache-dir awscli==1.33.37
+# COPY requirements.txt /conf/
+# RUN pip install -r /conf/requirements.txt \
+#     && pip install --no-cache-dir awscli==1.33.37
 
 # Copy source code and install it
 RUN mkdir -p /code
