@@ -14,6 +14,7 @@ RUN apt-get update && \
       build-essential \
       git \
       # python3-pip \
+      curl \
       libpq-dev \
     && apt-get autoclean && \
     apt-get autoremove && \
@@ -23,8 +24,13 @@ RUN apt-get update && \
 WORKDIR /app
 # COPY requirements.in .
 COPY . .
-RUN pip install uv && \
-    uv pip compile requirements.in -o requirements.txt && \
+
+# Install uv using curl
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+
+
+# RUN pip install uv && \
+RUN uv pip compile requirements.in -o requirements.txt && \
     uv pip install -r requirements.txt --system && \
     uv pip install awscli==1.33.37 --system && \
     uv pip install . --system && \
