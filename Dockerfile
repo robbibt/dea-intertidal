@@ -34,7 +34,8 @@ COPY . .
 #     dea-intertidal --help
 
 # Install requirements
-RUN pip-compile --output-file=requirements.txt requirements.in && \
+RUN pip install pip-tools && \
+    pip-compile --output-file=requirements.txt requirements.in && \
     pip install -r requirements.txt
 
 # Install DEA Intertidal and verify installation
