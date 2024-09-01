@@ -39,7 +39,7 @@ WORKDIR /code
 ADD . /code
 
 RUN echo "Installing dea-intertidal through the Dockerfile."
-RUN uv pip install .
+RUN uv pip install . --system
 
 RUN uv pip list && uv pip check
 
