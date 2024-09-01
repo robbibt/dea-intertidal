@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 # Apt installation
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+    apt-get install -y \
       build-essential \
       # fish \
       git \
