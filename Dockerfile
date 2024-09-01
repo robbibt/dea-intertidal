@@ -25,10 +25,16 @@ WORKDIR /app
 # COPY requirements.in .
 COPY . .
 
-# Install uv and make it available
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
-    . $HOME/.cargo/env && \
+    echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $HOME/.bashrc && \
+    . $HOME/.bashrc && \
     uv --version
+
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Verify uv is in PATH
+RUN which uv
+
 
 # RUN pip install uv && \
 RUN uv pip compile requirements.in -o requirements.txt && \
