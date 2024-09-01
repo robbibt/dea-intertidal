@@ -30,7 +30,7 @@ RUN pip install uv
 # Pip installation
 RUN mkdir -p /conf
 COPY requirements.in /conf/
-RUN uv pip compile --python-version 3.10.12 /conf/requirements.in -o /conf/requirements.txt --verbose --universal
+RUN uv pip compile /conf/requirements.in -o /conf/requirements.txt --verbose
 RUN uv pip install -r /conf/requirements.txt
 
 # RUN pip-compile --extra-index-url=https://packages.dea.ga.gov.au/ --output-file=/conf/requirements.txt /conf/requirements.in
