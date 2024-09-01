@@ -12,12 +12,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 RUN apt-get update && \
     apt-get install -y \
       build-essential \
-      # fish \
       git \
-      # vim \
-      # htop \
-      # wget \
-      # unzip \
       python3-pip \
       libpq-dev \
     && apt-get autoclean && \
@@ -27,21 +22,22 @@ RUN apt-get update && \
 # Install uv (faster than pip-tools)
 RUN pip install uv
 
-# uv installation
+# Install requirements via uv
 RUN mkdir -p /conf
 COPY requirements.in /conf/
 RUN uv pip compile /conf/requirements.in -o /conf/requirements.txt
-RUN uv pip install -r /conf/requirements.txt --system
+RUN uv pip install -r /conf/requirements.txt --system \
+    && uv pip install --no-cache-dir awscli==1.33.37 --system
 
 # Copy source code and install it
 RUN mkdir -p /code
 WORKDIR /code
 ADD . /code
-
-RUN echo "Installing dea-intertidal through the Dockerfile."
+RUN echo "Installing dea-intertidal"
 RUN uv pip install . --system
 
+# Verify all is as expected
 RUN uv pip list && uv pip check
 
-# Make sure it's working
+# Run test of CLI
 RUN dea-intertidal --help
