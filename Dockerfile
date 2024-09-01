@@ -13,7 +13,7 @@ RUN apt-get update && \
     apt-get install -y \
       build-essential \
       git \
-      python3-pip \
+      # python3-pip \
       libpq-dev \
     && apt-get autoclean && \
     apt-get autoremove && \
