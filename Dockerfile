@@ -28,10 +28,10 @@ RUN apt-get update && \
 RUN pip install uv
 
 # uv installation
-RUN mkdir -p /conf  # create directory for requirements files
-COPY requirements.in /conf/  # copy input requirements
-RUN uv pip compile /conf/requirements.in -o /conf/requirements.txt  # compile input requirements into full list
-RUN uv pip install -r /conf/requirements.txt --system  # install resulting requirements.txt into the system
+RUN mkdir -p /conf
+COPY requirements.in /conf/
+RUN uv pip compile /conf/requirements.in -o /conf/requirements.txt
+RUN uv pip install -r /conf/requirements.txt --system
 
 # Copy source code and install it
 RUN mkdir -p /code
