@@ -23,25 +23,25 @@ RUN apt-get update && \
 WORKDIR /app
 COPY . .
 
-# # Install requirements
-# RUN pip install uv && \
-#     uv pip compile requirements.in -o requirements.txt && \
-#     uv pip install -r requirements.txt --system
-
-# # Install DEA Intertidal and verify installation
-# RUN uv pip install . --system && \
-#     uv pip check && \
-#     dea-intertidal --help
-
 # Install requirements
-RUN pip install pip-tools && \
-    pip-compile --output-file=requirements.txt requirements.in && \
-    pip install -r requirements.txt
+RUN pip install uv && \
+    uv pip compile requirements.in -o requirements.txt && \
+    uv pip install -r requirements.txt --system
 
 # Install DEA Intertidal and verify installation
-RUN pip install . && \
-    pip check && \
+RUN uv pip install . --system && \
+    uv pip check && \
     dea-intertidal --help
+
+# # Install requirements
+# RUN pip install pip-tools && \
+#     pip-compile --output-file=requirements.txt requirements.in && \
+#     pip install -r requirements.txt
+
+# # Install DEA Intertidal and verify installation
+# RUN pip install . && \
+#     pip check && \
+#     dea-intertidal --help
 
 # Set the entrypoint to dea-intertidal
 ENTRYPOINT ["dea-intertidal"]
