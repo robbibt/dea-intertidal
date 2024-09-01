@@ -27,6 +27,7 @@ COPY . .
 
 # Install uv using curl
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.cargo/bin:${PATH}"
 
 
 # RUN pip install uv && \
