@@ -19,25 +19,15 @@ RUN apt-get update && \
     apt-get autoremove && \
     rm -rf /var/lib/{apt,dpkg,cache,log}
 
-# Install uv (faster than pip-tools)
-RUN pip install uv
+# Install uv, compile and install requirements, and install dea-intertidal
+WORKDIR /app
+COPY requirements.in .
+COPY . .
+RUN pip install uv && \
+    uv pip compile requirements.in -o requirements.txt && \
+    uv pip install -r requirements.txt awscli==1.33.37 . --system && \
+    uv pip check && \
+    dea-intertidal --help
 
-# Install requirements via uv
-RUN mkdir -p /conf
-COPY requirements.in /conf/
-RUN uv pip compile /conf/requirements.in --output-file /conf/requirements.txt --quiet
-RUN uv pip install -r /conf/requirements.txt --system \
-    && uv pip install --no-cache-dir awscli==1.33.37 --system
-
-# Copy source code and install it
-RUN mkdir -p /code
-WORKDIR /code
-ADD . /code
-RUN echo "Installing dea-intertidal"
-RUN uv pip install . --system
-
-# Verify all is as expected
-RUN uv pip list && uv pip check
-
-# Run test of CLI
-RUN dea-intertidal --help
+# Set the entrypoint to dea-intertidal
+ENTRYPOINT ["dea-intertidal"]
