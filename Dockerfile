@@ -25,9 +25,10 @@ WORKDIR /app
 # COPY requirements.in .
 COPY . .
 
-# Install uv using curl
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-RUN source $HOME/.cargo/env
+# Install uv and make it available
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    . $HOME/.cargo/env && \
+    uv --version
 
 # RUN pip install uv && \
 RUN uv pip compile requirements.in -o requirements.txt && \
