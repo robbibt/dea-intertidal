@@ -1,4 +1,5 @@
 aiohttp
+awscli==1.33.37
 botocore
 click==8.1.7
 datacube[s3,performance]==1.8.18
