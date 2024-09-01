@@ -20,21 +20,20 @@ RUN apt-get update && \
     apt-get autoremove && \
     rm -rf /var/lib/{apt,dpkg,cache,log}
 
+# Download the latest installer
+ADD https://astral.sh/uv/install.sh /uv-installer.sh
+
+# Run the installer then remove it
+RUN sh /uv-installer.sh && rm /uv-installer.sh
+
+# Ensure the installed binary is on the `PATH`
+ENV PATH="/root/.cargo/bin/:$PATH"
+
+
 # Install uv, compile and install requirements, and install dea-intertidal
 WORKDIR /app
 # COPY requirements.in .
 COPY . .
-
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
-    echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $HOME/.bashrc && \
-    . $HOME/.bashrc && \
-    uv --version
-
-ENV PATH="/root/.cargo/bin:${PATH}"
-
-# Verify uv is in PATH
-RUN which uv
-
 
 # RUN pip install uv && \
 RUN uv pip compile requirements.in -o requirements.txt && \
