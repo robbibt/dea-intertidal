@@ -6,7 +6,8 @@ FROM ghcr.io/osgeo/gdal:ubuntu-small-3.7.3
 
 ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=C.UTF-8 \
-    LANG=C.UTF-8
+    LANG=C.UTF-8 \
+    PATH="/root/.cargo/bin:${PATH}
 
 # Apt installation
 RUN apt-get update && \
@@ -27,8 +28,6 @@ COPY . .
 
 # Install uv using curl
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-ENV PATH="/root/.cargo/bin:${PATH}"
-
 
 # RUN pip install uv && \
 RUN uv pip compile requirements.in -o requirements.txt && \
