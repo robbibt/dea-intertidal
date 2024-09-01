@@ -7,7 +7,7 @@ FROM ghcr.io/osgeo/gdal:ubuntu-small-3.7.3
 ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=C.UTF-8 \
     LANG=C.UTF-8 \
-    PATH="/root/.cargo/bin:${PATH}
+    PATH="/root/.cargo/bin:${PATH}"
 
 # Apt installation
 RUN apt-get update && \
