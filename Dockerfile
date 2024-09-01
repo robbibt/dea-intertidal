@@ -31,7 +31,7 @@ RUN pip install uv
 RUN mkdir -p /conf
 COPY requirements.in /conf/
 RUN uv pip compile /conf/requirements.in -o /conf/requirements.txt --verbose
-RUN uv pip install -r /conf/requirements.txt
+RUN uv pip install -r /conf/requirements.txt --system
 
 # RUN pip-compile --extra-index-url=https://packages.dea.ga.gov.au/ --output-file=/conf/requirements.txt /conf/requirements.in
 # COPY requirements.txt /conf/
