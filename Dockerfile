@@ -24,19 +24,14 @@ RUN apt-get update && \
     apt-get autoremove && \
     rm -rf /var/lib/{apt,dpkg,cache,log}
 
-# Install pip-tools
+# Install uv (faster than pip-tools)
 RUN pip install uv
 
-# Pip installation
-RUN mkdir -p /conf
-COPY requirements.in /conf/
-RUN uv pip compile /conf/requirements.in -o /conf/requirements.txt --verbose
-RUN uv pip install -r /conf/requirements.txt --system
-
-# RUN pip-compile --extra-index-url=https://packages.dea.ga.gov.au/ --output-file=/conf/requirements.txt /conf/requirements.in
-# COPY requirements.txt /conf/
-# RUN pip install -r /conf/requirements.txt \
-#     && pip install --no-cache-dir awscli==1.33.37
+# uv installation
+RUN mkdir -p /conf  # create directory for requirements files
+COPY requirements.in /conf/  # copy input requirements
+RUN uv pip compile /conf/requirements.in -o /conf/requirements.txt  # compile input requirements into full list
+RUN uv pip install -r /conf/requirements.txt --system  # install resulting requirements.txt into the system
 
 # Copy source code and install it
 RUN mkdir -p /code
@@ -44,9 +39,9 @@ WORKDIR /code
 ADD . /code
 
 RUN echo "Installing dea-intertidal through the Dockerfile."
-RUN pip install --extra-index-url="https://packages.dea.ga.gov.au" .
+RUN uv pip install .
 
-RUN pip freeze && pip check
+RUN uv pip list && uv pip check
 
 # Make sure it's working
 RUN dea-intertidal --help
