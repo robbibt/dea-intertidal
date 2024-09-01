@@ -25,7 +25,7 @@ RUN pip install uv
 # Install requirements via uv
 RUN mkdir -p /conf
 COPY requirements.in /conf/
-RUN uv pip compile /conf/requirements.in -o /conf/requirements.txt
+RUN uv pip compile /conf/requirements.in --output-file /conf/requirements.txt --quiet
 RUN uv pip install -r /conf/requirements.txt --system \
     && uv pip install --no-cache-dir awscli==1.33.37 --system
 
